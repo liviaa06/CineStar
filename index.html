@@ -1,0 +1,742 @@
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineStar</title>
+    <style>
+    :root {
+      --primary-color: #6f0d9c;
+      --secondary-color: #1a1a1a;
+      --text-color: #ffffff;
+      --background-color: #000000;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: var(--secondary-color);
+      padding: 20px 0;
+    }
+    
+    .logo {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    nav ul {
+      list-style-type: none;
+      display: flex;
+    }
+    
+    nav ul li {
+      margin-left: 20px;
+    }
+    
+    nav ul li a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .search-bar {
+      margin: 25px 0;
+    }
+    
+    .search-bar input {
+      width: 50%;
+      padding: 8px;
+      border: none;
+      border-radius: 8px 8px 8px 8px;
+    }
+    
+    .search-bar button {
+      width: 8%;
+      padding: 9px;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      border: none;
+      border-radius: 8px 8px 8px 8px;
+      cursor: pointer;
+    }
+    
+    .movie-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+      gap: 20px;
+    }
+    
+    .movie-card {
+      background-color: var(--secondary-color);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+    
+    .movie-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    
+    .movie-info {
+      padding: 10px;
+    }
+    
+    .movie-title {
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
+    
+    .movie-genre {
+      font-size: 0.9em;
+      color: #888;
+    }
+    
+    .rating {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5px;
+    }
+    
+    .stars {
+      color: gold;
+      padding: 4px;
+    }
+    
+    .favorite {
+      color: var(--primary-color);
+      cursor: pointer;
+      padding: 4px;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 10px;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    
+    .modal-content {
+      background-color: var(--secondary-color);
+      margin: 15% auto;
+      padding: 20px;
+      border: 0px solid #888;
+      width: 80%;
+      max-width: 600px;
+    }
+    
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: var(--text-color);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    form input, form textarea, form select {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px 8px 8px 8px;
+    }
+    
+    form button {
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      border: none;
+      padding: 20px;
+      cursor: pointer;
+      border-radius: 8px 8px 8px 8px;
+    }
+    
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      border: none;
+      padding: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    
+    .comments {
+      margin-top: 15px;
+    }
+    
+    .comment {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+    
+    .emoji-reactions {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2px;
+      padding: 20px;
+      font: 15px;
+     
+    }
+    
+    .emoji-reaction {
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+    
+    .recommendations {
+      margin-top: 20px;
+    }
+    
+    .recommendation-list {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 10px 0;
+    }
+    
+    .recommendation-item {
+      flex: 0 0 auto;
+      width: 150px;
+    }
+    
+    .recommendation-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .botaodebaixo{
+        padding: 10px;
+        border-radius: 8px;
+        bottom: 20px;
+      right: 20px;
+        
+    }
+    body.light-theme {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Estilo para o tema escuro */
+        body.dark-theme {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+    </style>
+    </head>
+    <body>
+    <header>
+      <nav class="container">
+        <div class="logo">CineStar</div>
+        <ul>
+          <li><a href="#" id="add-movie">Adicionar Filme</a></li>
+          <li><a href="#" id="view-favorites">Favoritos</a></li>
+          <li><a href="#" id="view-all">Todos os Filmes</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <main class="container">
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Pesquisar filmes...">
+        <button id="search-button">Buscar</button>
+      </div>
+    
+      <div class="movie-list" id="movie-list"><div class="movie-card">
+          <img src="https://example.com/inception.jpg" alt="Inception">
+          <div class="movie-info">
+            <h3 class="movie-title">Inception</h3>
+            <p class="movie-genre">Sci-Fi | 2010</p>
+            <div class="rating">
+              <span class="stars">★★★★★</span>
+              <span class="favorite" data-id="1">⭐</span>
+            </div>
+            <div class="emoji-reactions">
+              
+                <span class="emoji-reaction" data-emoji="😍" data-id="1">😍 0</span>
+              
+                <span class="emoji-reaction" data-emoji="👍" data-id="1">👍 0</span>
+              
+                <span class="emoji-reaction" data-emoji="😐" data-id="1">😐 0</span>
+              
+                <span class="emoji-reaction" data-emoji="👎" data-id="1">👎 0</span>
+              
+                <span class="emoji-reaction" data-emoji="😡" data-id="1">😡 0</span>
+              
+            </div>
+            <button class="botaodebaixo" data-id="1">Editar</button>
+            <button class="botaodebaixo" data-id="1">Excluir</button>
+            <button class="botaodebaixo" data-id="1">Detalhes</button>
+          </div>
+        </div><div class="movie-card">
+          <img src="https://example.com/shawshank.jpg" alt="The Shawshank Redemption">
+          <div class="movie-info">
+            <h3 class="movie-title">The Shawshank Redemption</h3>
+            <p class="movie-genre">Drama | 1994</p>
+            <div class="rating">
+              <span class="stars">★★★★★</span>
+              <span class="favorite" data-id="2">⭐</span>
+            </div>
+            <div class="emoji-reactions">
+              
+                <span class="emoji-reaction" data-emoji="😍" data-id="2">😍 0</span>
+              
+                <span class="emoji-reaction" data-emoji="👍" data-id="2">👍 0</span>
+              
+                <span class="emoji-reaction" data-emoji="😐" data-id="2">😐 0</span>
+              
+                <span class="emoji-reaction" data-emoji="👎" data-id="2">👎 0</span>
+              
+                <span class="emoji-reaction" data-emoji="😡" data-id="2">😡 0</span>
+              
+            </div>
+            <button class="botaodebaixo" data-id="2">Editar</button>
+            <button class="botaodebaixo" data-id="2">Excluir</button>
+            <button class="botaodebaixo" data-id="2">Detalhes</button>
+          </div>
+        </div><div class="movie-card">
+          <img src="https://example.com/darkknight.jpg" alt="The Dark Knight">
+          <div class="movie-info">
+            <h3 class="movie-title">The Dark Knight</h3>
+            <p class="movie-genre">Action | 2008</p>
+            <div class="rating">
+              <span class="stars">★★★★★</span>
+              <span class="favorite" data-id="3">⭐</span>
+            </div>
+            <div class="emoji-reactions">
+              
+                <span class="emoji-reaction" data-emoji="😍" data-id="3">😍 0</span>
+              
+                <span class="emoji-reaction" data-emoji="👍" data-id="3">👍 0</span>
+              
+                <span class="emoji-reaction" data-emoji="😐" data-id="3">😐 0</span>
+              
+                <span class="emoji-reaction" data-emoji="👎" data-id="3">👎 0</span>
+              
+                <span class="emoji-reaction" data-emoji="😡" data-id="3">😡 0</span>
+              
+            </div>
+            <button class="botaodebaixo" data-id="3">Editar</button>
+            <button class="botaodebaixo" data-id="3">Excluir</button>
+            <button class="botaodebaixo" data-id="3">Detalhes</button>
+          </div>
+        </div></div>
+    
+      <div id="add-movie-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">×</span>
+          <h2>Adicionar Novo Filme</h2>
+          <form id="add-movie-form">
+            <input type="text" id="movie-name" placeholder="Nome do filme" required="">
+            <input type="url" id="movie-photo" placeholder="URL da foto" required="">
+            <input type="number" id="movie-age" placeholder="Classificação de idade" required="">
+            <input type="text" id="movie-duration" placeholder="Duração" required="">
+            <input type="text" id="movie-genre" placeholder="Gênero" required="">
+            <input type="number" id="movie-year" placeholder="Ano de lançamento" required="">
+            <textarea id="movie-synopsis" placeholder="Sinopse" required=""></textarea>
+            <input type="url" id="movie-trailer" placeholder="URL do trailer" required="">
+            <button type="submit">Adicionar Filme</button>
+          </form>
+        </div>
+      </div>
+    
+      <div id="edit-movie-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close">×</span>
+          <h2>Editar Filme</h2>
+          <form id="edit-movie-form">
+            <input type="hidden" id="edit-movie-id" value="3">
+            <input type="text" id="edit-movie-name" placeholder="Nome do filme" required="">
+            <input type="url" id="edit-movie-photo" placeholder="URL da foto" required="">
+            <input type="number" id="edit-movie-age" placeholder="Classificação de idade" required="">
+            <input type="text" id="edit-movie-duration" placeholder="Duração" required="">
+            <input type="text" id="edit-movie-genre" placeholder="Gênero" required="">
+            <input type="number" id="edit-movie-year" placeholder="Ano de lançamento" required="">
+            <textarea id="edit-movie-synopsis" placeholder="Sinopse" required=""></textarea>
+            <input type="url" id="edit-movie-trailer" placeholder="URL do trailer" required="">
+            <button type="submit">Salvar Alterações</button>
+          </form>
+        </div>
+      </div>
+    
+      <button class="theme-toggle" id="theme-toggle">🌓</button>
+      <script>
+        // Seleciona o botão e o corpo da página
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Função para alternar entre temas
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+
+        });
+    </script>
+    </main>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script>
+    class Movie {
+      constructor(id, name, photo, age, duration, genre, year, synopsis, trailer) {
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
+        this.age = age;
+        this.duration = duration;
+        this.genre = genre;
+        this.year = year;
+        this.synopsis = synopsis;
+        this.trailer = trailer;
+        this.rating = 0;
+        this.comments = [];
+        this.reactions = {
+          '😍': 0,
+          '👍': 0,
+          '😐': 0,
+          '👎': 0,
+          '😡': 0
+        };
+      }
+    }
+    
+    class MovieCatalog {
+      constructor() {
+        this.movies = [];
+        this.favorites = [];
+      }
+    
+      addMovie(movie) {
+        this.movies.push(movie);
+      }
+    
+      removeMovie(id) {
+        this.movies = this.movies.filter(movie => movie.id !== id);
+        this.favorites = this.favorites.filter(movieId => movieId !== id);
+      }
+    
+      getMovie(id) {
+        return this.movies.find(movie => movie.id === id);
+      }
+    
+      updateMovie(updatedMovie) {
+        const index = this.movies.findIndex(movie => movie.id === updatedMovie.id);
+        if (index !== -1) {
+          this.movies[index] = updatedMovie;
+        }
+      }
+    
+      searchMovies(query) {
+        return this.movies.filter(movie => 
+          movie.name.toLowerCase().includes(query.toLowerCase()) ||
+          movie.genre.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+    
+      rateMovie(id, rating) {
+        const movie = this.getMovie(id);
+        if (movie) {
+          movie.rating = rating;
+        }
+      }
+    
+      addComment(id, comment) {
+        const movie = this.getMovie(id);
+        if (movie) {
+          movie.comments.push(comment);
+        }
+      }
+    
+      addReaction(id, emoji) {
+        const movie = this.getMovie(id);
+        if (movie && movie.reactions.hasOwnProperty(emoji)) {
+          movie.reactions[emoji]++;
+        }
+      }
+    
+      toggleFavorite(id) {
+        const index = this.favorites.indexOf(id);
+        if (index === -1) {
+          this.favorites.push(id);
+        } else {
+          this.favorites.splice(index, 1);
+        }
+      }
+    
+      getFavorites() {
+        return this.movies.filter(movie => this.favorites.includes(movie.id));
+      }
+    
+      getRecommendations(movieId) {
+        const movie = this.getMovie(movieId);
+        if (!movie) return [];
+    
+        return this.movies
+          .filter(m => m.id !== movieId && m.genre === movie.genre)
+          .sort((a, b) => b.rating - a.rating)
+          .slice(0, 5);
+      }
+    }
+    
+    const catalog = new MovieCatalog();
+    
+    function renderMovies(movies) {
+      const movieList = document.getElementById('movie-list');
+      movieList.innerHTML = '';
+    
+      movies.forEach(movie => {
+        const movieCard = document.createElement('div');
+        movieCard.className = 'movie-card';
+        movieCard.innerHTML = `
+          <img src="${movie.photo}" alt="${movie.name}">
+          <div class="movie-info">
+            <h3 class="movie-title">${movie.name}</h3>
+            <p class="movie-genre">${movie.genre} | ${movie.year}</p>
+            <div class="rating">
+              <span class="stars">★★★★★</span>
+              <span class="favorite" data-id="${movie.id}">⭐</span>
+            </div>
+            <div class="emoji-reactions">
+              ${Object.keys(movie.reactions).map(emoji => `
+                <span class="emoji-reaction" data-emoji="${emoji}" data-id="${movie.id}">${emoji} ${movie.reactions[emoji]}</span>
+              `).join('')}
+            </div>
+            <button class="edit-movie" data-id="${movie.id}">Editar</button>
+            <button class="delete-movie" data-id="${movie.id}">Excluir</button>
+            <button class="view-details" data-id="${movie.id}">Detalhes</button>
+          </div>
+        `;
+        movieList.appendChild(movieCard);
+      });
+    
+      // Adicionar event listeners
+      document.querySelectorAll('.favorite').forEach(btn => {
+        btn.addEventListener('click', (e) => toggleFavorite(e.target.dataset.id));
+      });
+    
+      document.querySelectorAll('.emoji-reaction').forEach(btn => {
+        btn.addEventListener('click', (e) => addReaction(e.target.dataset.id, e.target.dataset.emoji));
+      });
+    
+      document.querySelectorAll('.edit-movie').forEach(btn => {
+        btn.addEventListener('click', (e) => openEditModal(e.target.dataset.id));
+      });
+    
+      document.querySelectorAll('.delete-movie').forEach(btn => {
+        btn.addEventListener('click', (e) => deleteMovie(e.target.dataset.id));
+      });
+    
+      document.querySelectorAll('.view-details').forEach(btn => {
+        btn.addEventListener('click', (e) => viewMovieDetails(e.target.dataset.id));
+      });
+    }
+    
+    function toggleFavorite(id) {
+      catalog.toggleFavorite(parseInt(id));
+      renderMovies(catalog.movies);
+    }
+    
+    function addReaction(id, emoji) {
+      catalog.addReaction(parseInt(id), emoji);
+      renderMovies(catalog.movies);
+    }
+    
+    function openEditModal(id) {
+      const movie = catalog.getMovie(parseInt(id));
+      if (movie) {
+        document.getElementById('edit-movie-id').value = movie.id;
+        document.getElementById('edit-movie-name').value = movie.name;
+        document.getElementById('edit-movie-photo').value = movie.photo;
+        document.getElementById('edit-movie-age').value = movie.age;
+        document.getElementById('edit-movie-duration').value = movie.duration;
+        document.getElementById('edit-movie-genre').value = movie.genre;
+        document.getElementById('edit-movie-year').value = movie.year;
+        document.getElementById('edit-movie-synopsis').value = movie.synopsis;
+        document.getElementById('edit-movie-trailer').value = movie.trailer;
+    
+        document.getElementById('edit-movie-modal').style.display = 'block';
+      }
+    }
+    
+    function deleteMovie(id) {
+      if (confirm('Tem certeza que deseja excluir este filme?')) {
+        catalog.removeMovie(parseInt(id));
+        renderMovies(catalog.movies);
+      }
+    }
+    
+    function viewMovieDetails(id) {
+      const movie = catalog.getMovie(parseInt(id));
+      if (movie) {
+        const detailsHTML = `
+          <h2>${movie.name}</h2>
+          <img src="${movie.photo}" alt="${movie.name}" style="max-width: 300px;">
+          <p><strong>Classificação:</strong> ${movie.age}</p>
+          <p><strong>Duração:</strong> ${movie.duration}</p>
+          <p><strong>Gênero:</strong> ${movie.genre}</p>
+          <p><strong>Ano:</strong> ${movie.year}</p>
+          <p><strong>Sinopse:</strong> ${movie.synopsis}</p>
+          <iframe width="560" height="315" src="${movie.trailer}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <h3>Comentários:</h3>
+          <div id="comments-list">
+            ${movie.comments.map(comment => `<p>${comment}</p>`).join('')}
+          </div>
+          <textarea id="new-comment" placeholder="Adicione um comentário"></textarea>
+          <button onclick="addComment(${movie.id})">Enviar Comentário</button>
+          <h3>Recomendações:</h3>
+          <div id="recommendations-list"></div>
+        `;
+    
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            ${detailsHTML}
+          </div>
+        `;
+    
+        document.body.appendChild(modal);
+        modal.style.display = 'block';
+    
+        const closeBtn = modal.querySelector('.close');
+        closeBtn.onclick = () => {
+          document.body.removeChild(modal);
+        };
+    
+        // Renderizar recomendações
+        const recommendations = catalog.getRecommendations(movie.id);
+        const recommendationsList = modal.querySelector('#recommendations-list');
+        recommendationsList.innerHTML = recommendations.map(rec => `
+          <div class="recommendation-item">
+            <img src="${rec.photo}" alt="${rec.name}">
+            <p>${rec.name}</p>
+          </div>
+        `).join('');
+      }
+    }
+    
+    function addComment(id) {
+      const commentText = document.getElementById('new-comment').value;
+      if (commentText) {
+        catalog.addComment(id, commentText);
+        document.getElementById('new-comment').value = '';
+        viewMovieDetails(id);  // Reabrir o modal para mostrar o novo comentário
+      }
+    }
+    
+    document.getElementById('add-movie-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newMovie = new Movie(
+        Date.now(),  // Usar timestamp como ID único
+        document.getElementById('movie-name').value,
+        document.getElementById('movie-photo').value,
+        parseInt(document.getElementById('movie-age').value),
+        document.getElementById('movie-duration').value,
+        document.getElementById('movie-genre').value,
+        parseInt(document.getElementById('movie-year').value),
+        document.getElementById('movie-synopsis').value,
+        document.getElementById('movie-trailer').value
+      );
+      catalog.addMovie(newMovie);
+      renderMovies(catalog.movies);
+      document.getElementById('add-movie-modal').style.display = 'none';
+    });
+    
+    document.getElementById('edit-movie-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const updatedMovie = new Movie(
+        parseInt(document.getElementById('edit-movie-id').value),
+        document.getElementById('edit-movie-name').value,
+        document.getElementById('edit-movie-photo').value,
+        parseInt(document.getElementById('edit-movie-age').value),
+        document.getElementById('edit-movie-duration').value,
+        document.getElementById('edit-movie-genre').value,
+        parseInt(document.getElementById('edit-movie-year').value),
+        document.getElementById('edit-movie-synopsis').value,
+        document.getElementById('edit-movie-trailer').value
+      );
+      catalog.updateMovie(updatedMovie);
+      renderMovies(catalog.movies);
+      document.getElementById('edit-movie-modal').style.display = 'none';
+    });
+    
+    document.getElementById('search-button').addEventListener('click', () => {
+      const query = document.getElementById('search-input').value;
+      const results = catalog.searchMovies(query);
+      renderMovies(results);
+    });
+    
+    document.getElementById('add-movie').addEventListener('click', () => {
+      document.getElementById('add-movie-modal').style.display = 'block';
+    });
+    
+    document.getElementById('view-favorites').addEventListener('click', () => {
+      const favorites = catalog.getFavorites();
+      renderMovies(favorites);
+    });
+    
+    document.getElementById('view-all').addEventListener('click', () => {
+      renderMovies(catalog.movies);
+    });
+    
+    document.querySelectorAll('.close').forEach(closeBtn => {
+      closeBtn.addEventListener('click', () => {
+        closeBtn.closest('.modal').style.display = 'none';
+      });
+    });
+    
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+    });
+    
+    // Inicializar a página
+    renderMovies(catalog.movies);
+    </script>
+    
+    </body></html>
